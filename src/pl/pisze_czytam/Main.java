@@ -1,6 +1,7 @@
 package pl.pisze_czytam;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Main {
@@ -133,27 +134,39 @@ class Main {
     }
 
     private static void stworzButelke(Scanner scanner) {
-        double pojemnosc;
+        double pojemnosc = -1;
         do {
-            System.out.println("Aby stworzyć butelkę, podaj jej pojemność.");
-            // TODO: catch InputMismatchException w przypadku, gdy ktoś wpisze dwa przecinki
-            pojemnosc = scanner.nextDouble();
-            if (pojemnosc < 0) {
-                System.out.println("Butelka mnie może mieć mniej niż 0.");
+            System.out.println("Aby stworzyć butelkę, wpierw podaj jej pojemność.");
+            try {
+                pojemnosc = scanner.nextDouble();
+                if (pojemnosc < 0) {
+                    System.out.println("Butelka nie może mieć pojemności mniejszej niż 0.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("W zapisie pojemności pojawił się jakiś niepożądany znak. Naciśnij enter i spróbuj jeszcze raz.");
+                scanner.nextLine();
+                scanner.nextLine();
             }
-        } while (pojemnosc < 0);
+        } while (pojemnosc <= 0);
         scanner.nextLine();
 
-
-        System.out.println("Ile litrów chcesz do niej wlać na początek?");
-        // TODO: catch InputMismatchException w przypadku, gdy ktoś wpisze dwa przecinki
-        double wypelnienie = scanner.nextDouble();
-        if (wypelnienie < 0) {
-            System.out.println("Nie możesz wlać mniej niż zero litrów. Butelka będzie pusta, dopóki w nią czegoś nie wlejesz.");
-            wypelnienie = 0;
-        } else if (wypelnienie > pojemnosc) {
-            wypelnienie = pojemnosc;
-        }
+        double wypelnienie = -1;
+        do {
+            System.out.println("Ile litrów chcesz do niej wlać na początek?");
+            try {
+                wypelnienie = scanner.nextDouble();
+                if (wypelnienie < 0) {
+                    System.out.println("Nie możesz wlać mniej niż zero litrów. Butelka będzie pusta, dopóki w nią czegoś nie wlejesz.");
+                    wypelnienie = 0;
+                } else if (wypelnienie > pojemnosc) {
+                    wypelnienie = pojemnosc;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("W wartości pojawił się jakiś niepożądany znak. Naciśnij enter i spróbuj jeszcze raz.");
+                scanner.nextLine();
+                scanner.nextLine();
+            }
+        } while (wypelnienie < 0);
 
         Butelka butelka = new Butelka(pojemnosc, wypelnienie);
         System.out.println("Stworzyłeś pierwszą butelkę o pojemności " + pojemnosc + " l z " + wypelnienie + " l płynu. "
