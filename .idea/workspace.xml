@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="78f150fc-0f74-4fc3-8435-c24a4aba2065" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Butelka/pl/pisze_czytam/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Butelka/pl/pisze_czytam/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pl/pisze_czytam/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pl/pisze_czytam/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,8 +19,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pl/pisze_czytam/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="166" column="35" lean-forward="true" selection-start-line="166" selection-start-column="35" selection-end-line="166" selection-end-column="35" />
+            <state relative-caret-position="-2392">
+              <caret line="121" column="90" selection-start-line="121" selection-start-column="90" selection-end-line="121" selection-end-column="90" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -182,7 +183,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32838285" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32838285" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -210,6 +211,16 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/pl/pisze_czytam/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1751">
+          <caret line="103" column="73" lean-forward="true" selection-start-line="103" selection-start-column="73" selection-end-line="103" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pl/pisze_czytam/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2856">
@@ -272,8 +283,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pl/pisze_czytam/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="166" column="35" lean-forward="true" selection-start-line="166" selection-start-column="35" selection-end-line="166" selection-end-column="35" />
+        <state relative-caret-position="-2392">
+          <caret line="121" column="90" selection-start-line="121" selection-start-column="90" selection-end-line="121" selection-end-column="90" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
