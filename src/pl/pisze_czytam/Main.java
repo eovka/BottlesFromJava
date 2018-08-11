@@ -70,7 +70,7 @@ class Main {
         }
     }
 
-// TODO: docinać wszystkie obliczenia na double do dwóch miejsc po przecinku
+    // TODO: docinać wszystkie obliczenia na double do dwóch miejsc po przecinku
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Witaj w generatorze butelek! Ten prosty program służy do ich tworzenia, wlewania do nich i wylewania z nich wody (bądź innego płynu), przelewania płynu pomiędzy butelkami." +
@@ -93,7 +93,7 @@ class Main {
         System.out.println("6 - Zobacz zestawienie wszystkich swoich butelek.");
         if (scanner.hasNextInt()) {
             int komenda = scanner.nextInt();
-            // TODO: switch na poszczególne komendy (4 do napisania; 5 do sprawdzenia) + do uporządkowanie do metod, gdy liczba spoza zakresu -> nieprawidłowa komenda, powtórz
+            int nrButelki = 0;
             switch (komenda) {
                 case 1:
                     stworzButelke(scanner);
@@ -102,7 +102,6 @@ class Main {
                     sprawdzButelke(scanner);
                     break;
                 case 3:
-                    int nrButelki = 0;
                     double wlewane = 0.0;
                     do {
                         System.out.println("Do której butelki chcesz coś wlać? Wpisz jej numer.");
@@ -123,6 +122,29 @@ class Main {
                         }
                     } while (wlewane == 0.0);
                     zbiorButelek.get(nrButelki - 1).wlej(wlewane);
+                    przejdzDalej(scanner);
+                    break;
+                case 4:
+                    double wylewane = 0.0;
+                    do {
+                        System.out.println("Z której butelki chcesz coś wylać? Wpisz jej numer.");
+                        if (scanner.hasNextInt()) {
+                            nrButelki = scanner.nextInt();
+                        } else {
+                            System.out.println("Nie wiem, o którą butelkę chodzi.");
+                        }
+                    } while (nrButelki == 0);
+                    scanner.nextLine();
+
+                    do {
+                        System.out.println("Ile chcesz wylać z butelki " + nrButelki + "?");
+                        if (scanner.hasNextDouble()) {
+                            wylewane = scanner.nextDouble();
+                        } else {
+                            System.out.println("Nie mogę odczytać, ile chcesz wylać.");
+                        }
+                    } while (wylewane == 0.0);
+                    zbiorButelek.get(nrButelki - 1).wylej(wylewane);
                     przejdzDalej(scanner);
                     break;
                 case 5:
@@ -232,6 +254,7 @@ class Main {
         System.out.println("Możesz jeszcze dolać: " + (zbiorButelek.get(indeks).getPojemnosc() - zbiorButelek.get(indeks).getWypelnienie()) + " l");
     }
 
+    // TODO: cała funkcja do poprawy
     private static void przelej(Scanner scanner) {
         System.out.println("Z której butelki chcesz coś przelać?");
         // TODO funkcja ktoraButelka - zwrotka obiekt Butelki
@@ -259,6 +282,7 @@ class Main {
         // TODO: drugi raz funkcja ktora butelka - zwrotka butelka "do"
         // TODO: dokończyć przelewanie.
     }
+
     private static void przejdzDalej(Scanner scanner) {
         scanner.nextLine();
         scanner.nextLine();
