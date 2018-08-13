@@ -30,11 +30,11 @@ class Main {
             return wypelnienie;
         }
 
-        int getNumerButelki() {
+        int getLiczbaButelek() {
             return numerButelki;
         }
 
-        void wlej(double wlewane) {
+        void wlej(double wlewane, int nrButelki) {
             if (wlewane < 0) {
                 System.out.println("Nie możesz wlać mniej niż zero litrów. Jeśli chcesz coś wylać z butelki, użyj funkcji \"wylej\".");
                 return;
@@ -42,14 +42,14 @@ class Main {
             if (wlewane + wypelnienie <= pojemnosc) {
                 wypelnienie += wlewane;
                 double zostalo = pojemnosc - wypelnienie;
-                System.out.println("Wlano " + wlewane + " l do butelki " + getNumerButelki() + ". Jest w niej teraz " + wypelnienie + " l. Możesz dolać jeszcze " + zostalo + " l do " + pojemnosc + " l.");
+                System.out.println("Wlano " + wlewane + " l do butelki " + nrButelki + ". Jest w niej teraz " + wypelnienie + " l. Możesz dolać jeszcze " + zostalo + " l do " + pojemnosc + " l.");
             } else {
-                System.out.println("Nie można wlać aż tyle do butelki " + getNumerButelki() + ". Dolano " + (pojemnosc - wypelnienie) + " l do pełna, czyli do " + pojemnosc + " l.");
+                System.out.println("Nie można wlać aż tyle do butelki " + nrButelki + ". Dolano " + (pojemnosc - wypelnienie) + " l do pełna, czyli do " + pojemnosc + " l.");
                 wypelnienie = pojemnosc;
             }
         }
 
-        void wylej(double wylewane) {
+        void wylej(double wylewane, int nrButelki) {
             if (wylewane < 0) {
                 System.out.println("Nie możesz wylać mniej niż zero litrów. Jeśli chcesz  wlać coś do butelki, użyj funkcji \"wlej\".");
                 return;
@@ -59,13 +59,13 @@ class Main {
                 wypelnienie = 0;
             } else {
                 wypelnienie -= wylewane;
-                System.out.println("Wylano " + wylewane + " l z butelki " + getNumerButelki() + ". Zostało w niej " + wypelnienie + " l.");
+                System.out.println("Wylano " + wylewane + " l z butelki " + nrButelki + ". Zostało w niej " + wypelnienie + " l.");
             }
         }
 
-        void przelej(Butelka butelkaDo, double przelewane) {
-            wylej(przelewane);
-            butelkaDo.wlej(przelewane);
+        void przelej(Butelka butelkaDo, double przelewane, int nrButelkiZ, int nrButelkiDo) {
+            wylej(przelewane, nrButelkiZ);
+            butelkaDo.wlej(przelewane, nrButelkiDo);
         }
     }
 
@@ -121,7 +121,7 @@ class Main {
                             System.out.println("Nie mogę odczytać, ile chcesz wlać.");
                         }
                     } while (wlewane == 0.0);
-                    zbiorButelek.get(nrButelki - 1).wlej(wlewane);
+                    zbiorButelek.get(nrButelki - 1).wlej(wlewane, nrButelki);
                     przejdzDalej(scanner);
                     break;
                 case 4:
@@ -144,7 +144,7 @@ class Main {
                             System.out.println("Nie mogę odczytać, ile chcesz wylać.");
                         }
                     } while (wylewane == 0.0);
-                    zbiorButelek.get(nrButelki - 1).wylej(wylewane);
+                    zbiorButelek.get(nrButelki - 1).wylej(wylewane, nrButelki);
                     przejdzDalej(scanner);
                     break;
                 case 5:
@@ -215,9 +215,9 @@ class Main {
         } while (wypelnienie < 0);
 
         Butelka butelka = new Butelka(pojemnosc, wypelnienie);
-        System.out.println("Stworzyłeś pierwszą butelkę o pojemności " + pojemnosc + " l z " + wypelnienie + " l płynu. "
+        System.out.println("Stworzyłeś butelkę o pojemności " + pojemnosc + " l z " + wypelnienie + " l płynu. "
                 + "Będziesz mógł dolać jeszcze " + (pojemnosc - wypelnienie) + " l.");
-        System.out.println("Gdy będziesz chciał(a) potem z niej skorzystać, przy wyborze butelki wpisz " + butelka.getNumerButelki() + ".");
+        System.out.println("Gdy będziesz chciał(a) potem z niej skorzystać, przy wyborze butelki wpisz " + butelka.getLiczbaButelek() + ".");
         zbiorButelek.add(butelka);
         przejdzDalej(scanner);
     }
@@ -230,23 +230,54 @@ class Main {
             System.out.println("Masz jedną butelkę. Jej pojemność to: " + zbiorButelek.get(0).getPojemnosc() + " l i jest w niej " + zbiorButelek.get(0).getWypelnienie() + " l płynu.");
             przejdzDalej(scanner);
         } else {
+            int nrButelki = 0;
             System.out.println("Której butelki pojemność bądź zawartość chcesz sprawdzić? Wpisz numer od 1 do " + zbiorButelek.size() + ".");
-            if (scanner.hasNextInt()) {
-                int nrButelki = scanner.nextInt();
-                if (nrButelki <= 0 || nrButelki > zbiorButelek.size()) {
-                    System.out.println("Nie wiem, o którą butelkę Ci chodzi. Żadna butelka z dostępnych nie ma takiego numeru.");
-                } else {
-                    // TODO: pytanie o to, czego chce się dowiedzieć użytkownik (pojemność, wypełnienie, ile można dolać czy chce wiedzieć wszystko
-                    // TODO cd: + być może rozbicie metody "wydrukujInfoButelki" - w jej ramach poszczególne metody drukujące jeden wers)
-                    int indeksButelki = nrButelki - 1;
-                    wydrukujInfoButelki(indeksButelki);
-                    przejdzDalej(scanner);
+            do {
+                try {
+                    nrButelki = scanner.nextInt();
+                    if (nrButelki <= 0 || nrButelki > zbiorButelek.size()) {
+                        System.out.println("Nie wiem, o którą butelkę Ci chodzi. Żadna butelka z dostępnych nie ma takiego numeru.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Błąd w zapisie. Spróbuj podać numer butelki raz jeszcze.");
+                    scanner.nextLine();
+                    scanner.nextLine();
                 }
-            } else {
-                // TODO: jeśli nie int, a np. double lub struna.
+            } while (nrButelki <= 0 || nrButelki > zbiorButelek.size());
+
+            int komenda = 0;
+            do {
+                System.out.println("Co chcesz sprawdzić? \n1 - Jaka jest pojemność butelki? \n2 - Ile jest w niej płynu? \n3 - Ile można jeszcze dolać? \n4 - Chcę wiedzieć wszystko!");
+                try {
+                    komenda = scanner.nextInt();
+                    if (komenda <= 0 || komenda > 4) {
+                        System.out.println("Nie wiem, co zrobić. Podaj poprawny numer komendy z zakresu 1-4.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Błąd w zapisie, spróbuj raz jeszcze.");
+                    scanner.nextLine();
+                    scanner.nextLine();
+                }
+
+                switch (komenda) {
+                    case 1:
+                        System.out.println("Pojemność butelki " + nrButelki + " wynosi " + zbiorButelek.get(nrButelki - 1).getPojemnosc() + " l.");
+                        break;
+                    case 2:
+                        System.out.println("Butelka " + nrButelki + " przechowuje obecnie " + zbiorButelek.get(nrButelki - 1).getWypelnienie() + " l płynu.");
+                        break;
+                    case 3:
+                        System.out.println("Do butelki" + nrButelki + " można dolać jeszcze " + (zbiorButelek.get(nrButelki - 1).getPojemnosc() - zbiorButelek.get(nrButelki - 1).getWypelnienie()) + " l płynu.");
+                        break;
+                    case 4:
+                        wydrukujInfoButelki(nrButelki - 1);
+                        break;
+                }
+
+            } while (komenda <= 0 || komenda > 4);
+            przejdzDalej(scanner);
             }
         }
-    }
 
     private static void wydrukujInfoButelki(int indeks) {
         System.out.println("BUTELKA " + (indeks + 1));
@@ -296,14 +327,14 @@ class Main {
                 if (nrButelkiDo <= 0 || nrButelkiDo > zbiorButelek.size()) {
                     System.out.println("Nie masz butelki o takim identyfikatorze.");
                 }
-            } catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Nie wiem, o którą butelkę Ci chodzi, wpisz tylko liczbę, bez zbędnych znaków.");
                 scanner.nextLine();
                 scanner.nextLine();
             }
         } while (nrButelkiDo <= 0 || nrButelkiDo > zbiorButelek.size());
 
-        zbiorButelek.get(nrButelkiZ - 1).przelej(zbiorButelek.get(nrButelkiDo - 1), przelewane);
+        zbiorButelek.get(nrButelkiZ - 1).przelej(zbiorButelek.get(nrButelkiDo - 1), przelewane, nrButelkiZ, nrButelkiDo);
     }
 
     private static void przejdzDalej(Scanner scanner) {
